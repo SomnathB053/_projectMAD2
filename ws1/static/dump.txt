@@ -1,0 +1,120 @@
+<script src="https://unpkg.com/vue-router@4.0.15/dist/vue-router.global.js"></script>
+
+
+
+<p align="right"><a class="btn btn-outline-primary btn-sm" href="/" role="button"><b>Logout</b></a></p>
+	 <h1 class="display-3">Welcome {{name}}! </h1>   
+	 <div class="container">
+	 	<div class="row">
+	 	<div class="col-4"><div class="p-4">
+	      	<h2> Tracker</h2>
+	    	</div></div>
+	    	<div class="col-4"><div class="p-4">
+	      	<h2> Last Tracked</h2>
+	    	</div></div>
+	    	</div>
+
+	    	<div v-for=" t in record">
+	    	<div class="row">
+	    	<div class="col-4"><div class="p-3">
+	    	{{ t["t_name"] }}
+	    	</div></div>
+
+	    	<div class="col-4"><div class="p-3">
+	    	Date {{ t["desc"] }}
+	    	</div> </div>
+
+	    	<div class="col-2"><div class="p-3">
+	    	<a class="btn btn-outline-primary btn-sm" href="/{{name}}/log/{{a["TID"]}}" role="button"><b>+</b></a>
+	    	</div></div>
+
+	    	<div class="col-2"><div class="p-3">
+		<div class="dropdown">
+		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+		    Options
+		  </button>
+		  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+		    <li><a class="dropdown-item" href="/{{ name }}/view/{{ a["t_name"] }}">View</a></li>
+		    <li><a class="dropdown-item" href="/{{ name }}/edit/{{ a["t_name"] }} ">Edit</a></li>
+		    <li><a class="dropdown-item" href="/{{ name }}/del/{{ a["t_name"] }}">Delete</a></li>
+		  </ul>
+		</div>
+	    	</div></div>
+	    	</div>
+	    	</div>
+
+
+	    	<div class="row justify-content-center">
+	    	<div class="col-6"><div class="p-5">
+	    	<center><a class="btn btn-primary btn-lg" href="/{{name}}/newtracker" role="button"><h4>ADD Tracker</h4></a></center>
+	    	</div>	</div> 
+	    	</div>
+	 </div>
+
+
+
+     data: function() {
+        return {
+            uid: 0,
+            record: undefined}
+        },
+
+    created: function(){
+        fetch('http://127.0.0.1:5000/api/tracker/1')
+    .then(resp => resp.json())
+	.then(data => this.record = data)
+	.catch(err => console.log(err.message))
+    }
+    }
+
+
+
+	<div>
+		<input type="hidden" id="custId" name="uid" value= "{{ uid }}">		
+		<div class="row ">	
+		<div class="col-4"><div class= "p-4">	
+		<label for= "tname_input" class="form-label"> Tracker Name: </label>
+		</div></div>
+		<div class="col-8"><div class= "p-4">	
+		<input type="text" clas="form-control" id="tname_input"  name= "tname" value="{{ status0 }}" required>
+		</div>
+		</div>
+		</div>		
+		<div class="row">
+		<div class="col-4"><div class= "p-4">
+		<label for= "note_input" class="form-label"> Description: </label>
+		</div></div>
+		<div class="col-8"><div class= "p-4">
+		<textarea class="form-control" id="note_input" rows="2" name="desc" placeholder="Write something...">{{ status1 }}</textarea>
+		</div>
+		</div>
+		</div>		
+		<div class="row">
+		<div class="col-4"><div class= "p-4">
+		<label for= "value_input" class="form-label"> Tracker type: </label>
+		</div></div>
+		<div class="col-8"><div class= "p-4">
+		<select class="form-select" aria-label="Default select example" name="ttype" required>
+		 <option selected disabled value="">Select option</option>
+		 <option value="1">Number</option>
+		 <option value="2">Multiple Choice</option>
+		 <option value="3">Time Duration</option>
+		</select>
+		</div>
+		</div>
+		</div>		
+		<div class="row ">	
+		<div class="col-4"><div class= "p-4">	
+		<label for= "settings_input" class="form-label"> Additional input(for multiple choice option): </label>
+		</div></div>
+		<div class="col-8"><div class= "p-4">	
+		<input type="text" clas="form-control" id="settings_input"  name= "settings" value="{{ status2 }}">
+		</div>
+		</div>
+		</div>		
+		<div class="row justify-content-center">
+		<div class="col-4">
+		<button type="submit" class="btn btn-primary btn-lg">Submit</button>
+		</div>
+		</div>		
+	</div>
