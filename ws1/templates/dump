@@ -1,0 +1,66 @@
+<div>
+
+  <h1 class="display-4">New Tracker </h1>
+  <div class="container">	
+
+  <div class="row ">	
+  <div class="col-4"><div class= "p-4">	
+  <label for= "tname_input" class="form-label"> Tracker Name: </label>
+  </div></div>
+  <div class="col-8"><div class= "p-4">	
+  <input type="text" v-model="name" id="name" required>
+  </div>
+  </div>
+  </div>		
+
+  <div class="row">
+  <div class="col-4"><div class= "p-4">
+  <label for= "note_input" class="form-label"> Description: </label>
+  </div></div>
+  <div class="col-8"><div class= "p-4">
+  <textarea class="form-control" v-model="desc" id="desc" rows="2" name="desc" placeholder="Write something..."></textarea>
+  </div>
+  </div>
+  </div>		
+
+  <div class="row">
+  <div class="col-4"><div class= "p-4">
+  <label for= "value_input" class="form-label"> Tracker type: </label>
+  </div></div>
+  <div class="col-8"><div class= "p-4">
+  <select class="form-select" aria-label="Default select example" v-model="ttype" required>
+<option selected hidden disabled value="">Select option</option>
+   <option value="1">Number</option>
+   <option value="2">Multiple Choice</option>
+   <option value="3">Time Duration</option>
+  </select>
+  </div>
+  </div>
+  </div>		
+
+  <div class="row ">	
+  <div class="col-4"><div class= "p-4">	
+  <label for= "settings_input" class="form-label"> Additional input(for multiple choice option): </label>
+  </div></div>
+  <div class="col-8"><div class= "p-4">	
+  <input type="text" clas="form-control" id="options" v-model="options" name= "settings">
+  </div>
+  </div>
+  </div>		
+  <div class="row justify-content-center">
+  <div class="col-4">
+  <button @click="send" class="btn btn-primary btn-lg">Submit</button>
+  </div>
+  </div>		
+</div>
+</div>
+
+
+
+
+afdcec
+
+
+
+
+, 'Authentication-Token': sessionStorage.getItem('auth_token')

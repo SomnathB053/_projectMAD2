@@ -25,3 +25,12 @@ class LocalDevelopmentConfig(Config):
     SECURITY_UNAUTHORIZED_VIEW=None
     CELERY_BROKER_URL = "redis://localhost:6379/1"
     CELERY_RESULT_BACKEND = "redis://localhost:6379/2"
+    SECURITY_LOGIN_USER_TEMPLATE= "security/login_user.html"
+    REDIS_URL = "redis://localhost:6369"
+
+
+class mailConfig():
+    SMTP_SERVER_HOST = "localhost"
+    SMTP_SERVER_PORT = "1025"
+    SENDER_ADDRESS = "support@myapp.com"
+    SENDER_PASSWORD = ""

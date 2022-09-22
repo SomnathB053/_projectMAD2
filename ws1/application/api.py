@@ -1,9 +1,9 @@
 from flask_restful import Resource
 from flask_restful import reqparse, request
 from application.dbase import db
-from application.models import dummy, trackers, logs
+from application.models import dummy, trackers, logs, User
 from flask_restful import fields, marshal_with
-from flask_security import login_required
+from flask_security import login_required, auth_required
 from flask import jsonify
 from flask_login import current_user
 '''
@@ -35,19 +35,28 @@ log_parser.add_argument('time')
 
 
 class User_API(Resource):
-    @login_required
+    #@login_required
+    @auth_required("token")
     def get(self):
 
-        return {"uid": current_user.id}
+        return {"uid": current_user.id, "email": current_user.email}
     def put(self):
         pass
     def delete(self):
         pass
     def post(self):
-        pass
+        req = request.get_json()
+        print(db.session.query(User). filter(User.id == 2).one().whooks)
+        record = db.session.query(User).filter(User.id == current_user.id).one()
+        try:
+            record.whooks = req["whooks"]
+            db.session.commit()
+        except: db.session.rollback()
+        return req
 
 class trackerAPI(Resource):
     #@login_required
+    @auth_required("token")
     def get(self, uID):
         record = db.session.query(trackers).filter(trackers.uid == uID).all()
         #return { "id":record[0].id, "name":  record[0].name, "uid": record[0].uid, "desc": record[0].desc, "ttype": record[0].ttype, "options": record[0].options }
@@ -56,7 +65,7 @@ class trackerAPI(Resource):
         #print(lis)
         return jsonify(lis)
 
-
+    @auth_required("token")
     def patch(self):
         req = request.get_json()
         record = db.session.query(trackers).filter(trackers.id == req["tid"]).one()
@@ -70,7 +79,7 @@ class trackerAPI(Resource):
             db.session.rollback
         return req
         
-
+    @auth_required("token")
     def delete(self, tID):
         record = db.session.query(trackers).filter(trackers.id == tID).one()
         db.session.delete(record)
@@ -78,6 +87,7 @@ class trackerAPI(Resource):
         print(tID)
         return {'status': 200}
 
+    @auth_required("token")
     def post(self):
         #args= tracker_parser
         req = request.get_json()
@@ -90,17 +100,38 @@ class trackerAPI(Resource):
 
 class logAPI(Resource):
     #@login_required
+    @auth_required("token")
     def get(self, tid):
         record = db.session.query(logs).filter(logs.tid == tid).all()
         lis = [ i.json_out() for i in record]
         #print(lis)
         return jsonify(lis)
+     
+    @auth_required("token")
+    def patch(self):
+        req = request.get_json()
+        record = db.session.query(logs).filter(logs.id == req["lid"]).one()
+        try:
+            record.time = req["time"]
+            record.value = req["value"]
+            record.notes = req["notes"]
+            db.session.commit()
+        except:
+            db.session.rollback()
+        record = db.session.query(User).filter(User.id == None).all()
+        return req
 
-        
-    def put(self, user):
-        pass
-    def delete(self, user):
-        pass
+
+    @auth_required("token")
+    def delete(self, lid):
+        record = db.session.query(logs).filter(logs.id == lid).one()
+        db.session.delete(record)
+        db.session.commit()
+        print(lid)
+        return {'status': 200}
+
+
+    @auth_required("token")
     def post(self):
         req = request.get_json()
         #print(type(req))
@@ -113,9 +144,19 @@ class logAPI(Resource):
         try:
             s=req["time"]
             record.last_update = s[0:10]+" "+s[11:16]
+            
             db.session.commit()
         except:
             db.session.rollback()
+        record = db.session.query(User).filter(User.id == current_user.id).one()
+        try:
+            record.log_flag = 1
+            db.session.commit()
+        except: db.session.rollback()
         return req
 
      
+class dummy(Resource):
+    @auth_required("token")
+    def get(self):
+        return { "msg": "hello"}

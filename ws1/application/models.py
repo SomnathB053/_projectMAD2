@@ -10,6 +10,8 @@ class User(db.Model,UserMixin):
 	password= db.Column(db.String(255))
 	fs_uniquifier= db.Column(db.String(255), unique=True, nullable=False)  
 	active=db.Column(db.Boolean()) 	
+	whooks = db.Column(db.String)
+	log_flag =db.Column(db.Integer)
 	roles=db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
 
 class Role(db.Model,RoleMixin):

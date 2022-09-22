@@ -17,7 +17,7 @@
     <h4 style="color: #2e6c80;"><span style="color: #666699;">Tracker values:</span></h4>
 
     
-    <table  style="height: 68px; width: 698px; border-style: hidden; margin-left: auto; margin-right: auto;" border="1">
+    <table class="editorDemoTable" style="height: 68px; width: 698px; border-style: hidden; margin-left: auto; margin-right: auto;" border="1">
     <tbody>
     <tr style="height: 36px;">
     <td style="width: 342.5px; height: 36px; text-align: center;">
@@ -27,21 +27,12 @@
     <h4><span style="color: #666699;">Mean/Mode value</span></h4>
     </td>
     </tr>
-
-    {% if nt > 0 %}
-        {% for tname,tval in records %}
-            <tr style="height: 22px;">
-            <td style="width: 342.5px; height: 22px; text-align: center;"><span style="color: #666699;"> {{ tname}}</span></td>
-            <td style="width: 341.5px; height: 22px; text-align: center;"><span style="color: #666699;">{{ tval }}</span></td>
-            </tr>
-        {% endfor %}
-        
-    {% else %}
-        <tr style="height: 22px;">
-        <td style="width: 342.5px; height: 22px; text-align: center;"><span style="color: #666699;"> NA</span></td>
-        <td style="width: 341.5px; height: 22px; text-align: center;"><span style="color: #666699;"> NA</span></td>
-        </tr>
-    {% endif %}
+    {% for tname, tval in records %}
+    <tr style="height: 22px;">
+    <td style="width: 342.5px; height: 22px; text-align: center;"><span style="color: #666699;">{{ tname }}</span></td>
+    <td style="width: 341.5px; height: 22px; text-align: center;"><span style="color: #666699;">{{ tval }}</span></td>
+    </tr>
+    {% endfor %}
     </tbody>
     </table>
     <p><span style="color: #666699;"><strong>&nbsp;</strong></span></p>
